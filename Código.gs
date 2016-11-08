@@ -64,6 +64,29 @@ function desbordear(){
   }
 }
 
+function elegir(){
+  var sps = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = sps.getSheets();
+  var datos = sheet[0].getDataRange().getValues();
+  var ultimafila = sheet[0].getLastRow();
+  var total = ultimafila;
+     
+  if(ultimafila <= 1){
+    Browser.msgBox("No hay concursantes para elegir.");
+  }else{
+    do{
+      var winner = Math.floor(Math.random() * total + 1);
+    }while (winner == 1);    
+    
+    var nombre = sheet[0].getRange(winner, 2).getValue();
+    var apellidos = sheet[0].getRange(winner, 3).getValue();
+    var ganador = sheet[0].getRange(2, 8);
+    sheet[0].getRange(2, 8).setValue(nombre);
+    Browser.msgBox("El ganador es " + nombre+ " " + apellidos);
+    ganador.setBorder(true, true, true, true, false, false);
+  }
+}
+
 function onOpen() {
   var ui = SpreadsheetApp.getUi();
   
@@ -73,5 +96,23 @@ function onOpen() {
       .addItem('Quitar Bordes concursantes', 'desbordear')  
       .addToUi();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
