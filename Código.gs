@@ -64,6 +64,14 @@ function desbordear(){
   }
 }
 
-
+function onOpen() {
+  var ui = SpreadsheetApp.getUi();
+  
+  ui.createMenu('Opciones avanzadas')
+      .addItem('Eliminar los concursantes', 'borrar')
+      .addItem('Bordear concursantes', 'bordear')  
+      .addItem('Quitar Bordes concursantes', 'desbordear')  
+      .addToUi();
+}
 
 
