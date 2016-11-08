@@ -49,4 +49,21 @@ function bordear(){
   }    
 }
 
+function desbordear(){
+  var sps = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = sps.getSheets();
+  var datos = sheet[0].getDataRange().getValues();
+  var ultimafila = sheet[0].getLastRow();
+  var total = ultimafila - 1;
+      
+  if(ultimafila <= 1){
+    Browser.msgBox("No hay concursantes quitarles el borde.");
+  }else{
+    var rangoborde = sheet[0].getRange(2, 1, total, 6);  
+    rangoborde.setBorder(false, false, false, false, false, false);
+  }
+}
+
+
+
 
