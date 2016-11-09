@@ -70,7 +70,7 @@ function elegir(){
   var datos = sheet[0].getDataRange().getValues();
   var ultimafila = sheet[0].getLastRow();
   var total = ultimafila;
-     
+  
   if(ultimafila <= 1){
     Browser.msgBox("No hay concursantes para elegir.");
   }else{
@@ -80,18 +80,52 @@ function elegir(){
     
     var nombre = sheet[0].getRange(winner, 2).getValue();
     var apellidos = sheet[0].getRange(winner, 3).getValue();
+    var email = sheet[0].getRange(winner, 4).getValue();
+    var destino = sheet[0].getRange(winner, 5).getValue();
     var ganador = sheet[0].getRange(2, 8);
+    
     sheet[0].getRange(2, 8).setValue(nombre);
+    sheet[1].getRange(2, 1).setValue(nombre);
+    sheet[1].getRange(2, 2).setValue(apellidos);
+    sheet[1].getRange(2, 3).setValue(email);
+    sheet[1].getRange(2, 4).setValue(destino);
     Browser.msgBox("El ganador es " + nombre+ " " + apellidos);
     ganador.setBorder(true, true, true, true, false, false);
   }
 }
 
+function eliminarganador(){
+  var sps = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = sps.getSheets();
+  var datos = sheet[0].getDataRange().getValues();
+  var ganador = sheet[0].getRange(2,8);
+  
+  ganador.clear();
+}
+
+function grafico() {
+  var sps = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = sps.getSheets();
+  var datos = sheet[0].getDataRange().getValues();
+  var ultimafila = sheet[0].getLastRow();
+  var total = ultimafila;
+  
+  var chart = datos.newChart()
+  .setChartType(Charts.ChartType.BAR)
+  .addRange(datos.getRange(2, 5, datos, 5))
+  .setPosition(2, 9, 0, 0)
+  .build();
+  
+  sheet.insertChart(chart);
+}
+
 function onOpen() {
+  grafico();
   var ui = SpreadsheetApp.getUi();
   
   ui.createMenu('Opciones avanzadas')
       .addItem('Elegir ganador', 'elegir')
+      .addItem('Eliminar ganador', 'eliminarganador')
       .addItem('Eliminar los concursantes', 'borrar')
       .addItem('Bordear concursantes', 'bordear')  
       .addItem('Quitar Bordes concursantes', 'desbordear')  
